@@ -1,0 +1,41 @@
+name: mana_store
+description: "Mana Store - Barcode scanner & invoice manager"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sqflite: ^2.4.1
+  path_provider: ^2.1.5
+  path: ^1.9.1
+  flutter_riverpod: ^2.6.1
+  mobile_scanner: ^6.0.5
+  pdf: ^3.11.2
+  excel: ^4.0.6
+  share_plus: ^10.1.4
+  intl: ^0.20.2
+  printing: ^5.14.2
+  google_fonts: ^6.2.1
+  file_picker: ^8.1.2
+  audioplayers: ^6.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.2
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
+  min_sdk_android: 21
