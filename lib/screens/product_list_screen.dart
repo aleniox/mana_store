@@ -60,9 +60,64 @@ class ProductListScreen extends ConsumerWidget {
               final product = products[i];
               final inStock = product.stock > 0;
 
-              return Card(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: InkWell(
+              return Dismissible(
+                key: ValueKey(product.id),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 24),
+                  decoration: BoxDecoration(
+                    color: cs.error,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Icon(Icons.delete_outline_rounded, color: cs.onError, size: 24),
+                ),
+                confirmDismiss: (_) async {
+                  return await showDialog<bool>(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text('Xóa sản phẩm'),
+                      content: Text('Xóa "${product.name}"?\nHành động này không thể hoàn tác.'),
+                      actions: [
+                        TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Hủy')),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(backgroundColor: cs.error),
+                          onPressed: () => Navigator.pop(ctx, true),
+                          child: Text('Xóa', style: TextStyle(color: cs.onError)),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                onDismissed: (_) async {
+                  final db = ref.read(databaseHelperProvider);
+                  try {
+                    await db.deleteProduct(product.id!);
+                    ref.invalidate(productListProvider);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Đã xóa "${product.name}"'),
+                        duration: const Duration(seconds: 2),
+                      ));
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Không thể xóa: sản phẩm đã có trong hóa đơn'),
+                        backgroundColor: cs.error,
+                      ));
+                    }
+                    ref.invalidate(productListProvider);
+                  }
+                },
+                child: Card(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(color: cs.outlineVariant.withValues(alpha: 0.5)),
+                  ),
+                  child: InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: () async {
                     final result = await Navigator.push(
@@ -128,6 +183,7 @@ class ProductListScreen extends ConsumerWidget {
                         Icon(Icons.edit_outlined, size: 18, color: cs.onSurfaceVariant.withValues(alpha: 0.25)),
                       ],
                     ),
+                  ),
                   ),
                 ),
               );

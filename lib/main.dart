@@ -63,7 +63,7 @@ class ManaStoreApp extends StatelessWidget {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colorScheme.surface,
       appBarTheme: AppBarTheme(
-        centerTitle: true,
+        centerTitle: false,
         elevation: 0,
         scrolledUnderElevation: 1,
         backgroundColor: colorScheme.surface,

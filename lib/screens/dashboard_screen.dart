@@ -6,6 +6,7 @@ import 'create_invoice_screen.dart';
 import 'invoice_history_screen.dart';
 import 'product_list_screen.dart';
 import 'revenue_stats_screen.dart';
+import 'settings_screen.dart';
 
 class DashboardScreen extends ConsumerWidget {
   final VoidCallback? onNavigateToSale;
@@ -32,18 +33,17 @@ class DashboardScreen extends ConsumerWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.refresh_rounded),
-            onPressed: () {
-              ref.invalidate(todayRevenueProvider);
-              ref.invalidate(todayInvoiceCountProvider);
-              ref.invalidate(totalProductCountProvider);
-            },
-          ),
-          IconButton(
             icon: const Icon(Icons.inventory_2_outlined),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const ProductListScreen()),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings_rounded),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SettingsScreen()),
             ),
           ),
         ],

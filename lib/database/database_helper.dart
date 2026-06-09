@@ -79,6 +79,21 @@ class DatabaseHelper {
     );
   }
 
+  Future<void> upsertProductByBarcode(Product product) async {
+    final db = await database;
+    final existing = await getProductByBarcode(product.barcode);
+    if (existing != null) {
+      await db.update(
+        'products',
+        product.copyWith(id: existing.id).toMap(),
+        where: 'id = ?',
+        whereArgs: [existing.id],
+      );
+    } else {
+      await db.insert('products', product.toMap());
+    }
+  }
+
   Future<int> deleteProduct(int id) async {
     final db = await database;
     return await db.delete('products', where: 'id = ?', whereArgs: [id]);
