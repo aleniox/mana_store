@@ -82,6 +82,21 @@ class _SimpleScanScreenState extends State<SimpleScanScreen> {
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
+              Positioned(
+                top: 16,
+                right: 16,
+                child: GestureDetector(
+                  onTap: () => _controller.switchCamera(),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.black38,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Icon(Icons.flip_camera_android, color: Colors.white, size: 24),
+                  ),
+                ),
+              ),
             ],
           );
         },

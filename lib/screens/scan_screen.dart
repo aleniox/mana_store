@@ -18,8 +18,8 @@ class ScanScreen extends ConsumerStatefulWidget {
 
 class ScanScreenState extends ConsumerState<ScanScreen> {
   MobileScannerController? _controller;
-  bool _processing = false;
   final AudioPlayer _audioPlayer = AudioPlayer();
+  bool _processing = false;
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class ScanScreenState extends ConsumerState<ScanScreen> {
           backgroundColor: Colors.green,
         ),
       );
-      await Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(seconds: 1));
       if (mounted) _processing = false;
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -127,6 +127,21 @@ class ScanScreenState extends ConsumerState<ScanScreen> {
                   'Hướng camera vào mã vạch',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+              Positioned(
+                top: 16,
+                right: 16,
+                child: GestureDetector(
+                  onTap: () => _controller?.switchCamera(),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.black38,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Icon(Icons.flip_camera_android, color: Colors.white, size: 24),
+                  ),
                 ),
               ),
             ],
