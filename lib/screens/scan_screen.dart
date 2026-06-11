@@ -76,8 +76,7 @@ class ScanScreenState extends ConsumerState<ScanScreen> {
           action: SnackBarAction(
             label: 'Thêm mới',
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (_) => ProductFormScreen(
@@ -103,24 +102,36 @@ class ScanScreenState extends ConsumerState<ScanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Quét mã vạch')),
-      body: Stack(
-        children: [
-          MobileScanner(
-            controller: _controller,
-            onDetect: _onDetect,
-          ),
-          const ScannerOverlay(),
-          const Positioned(
-            bottom: 50,
-            left: 0,
-            right: 0,
-            child: Text(
-              'Hướng camera vào mã vạch',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
-          ),
-        ],
+      body: LayoutBuilder(
+        builder: (_, constraints) {
+          const scanAreaSize = 250.0;
+          final scanRect = Rect.fromLTWH(
+            (constraints.maxWidth - scanAreaSize) / 2,
+            (constraints.maxHeight - scanAreaSize) / 2,
+            scanAreaSize,
+            scanAreaSize,
+          );
+          return Stack(
+            children: [
+              MobileScanner(
+                controller: _controller,
+                onDetect: _onDetect,
+                scanWindow: scanRect,
+              ),
+              ScannerOverlay(scanRect: scanRect),
+              const Positioned(
+                bottom: 50,
+                left: 0,
+                right: 0,
+                child: Text(
+                  'Hướng camera vào mã vạch',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

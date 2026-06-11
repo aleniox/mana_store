@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:excel/excel.dart';
+import 'package:excel/excel.dart' hide Border;
 import 'package:path_provider/path_provider.dart';
 import '../providers/product_provider.dart';
 import '../providers/invoice_provider.dart';
+import '../providers/locale_provider.dart';
+import '../l10n/app_localizations.dart';
 import '../models/product.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -15,17 +17,21 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final cs = Theme.of(context).colorScheme;
+    final locale = ref.watch(localeProvider);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Cài đặt & Sao lưu')),
+      appBar: AppBar(title: Text(l10n.settings)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           // === Sao lưu Database ===
-          _buildSectionHeader(context, 'Sao lưu toàn bộ dữ liệu'),
+          _buildSectionHeader(context, l10n.backupRestore),
           const SizedBox(height: 4),
           Text(
-            'Xuất/Nhập toàn bộ CSDL (sản phẩm + hóa đơn). Dùng khi chuyển sang máy khác.',
-            style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            l10n.databaseBackupDesc,
+            style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
           ),
           const SizedBox(height: 12),
           Row(
@@ -33,7 +39,7 @@ class SettingsScreen extends ConsumerWidget {
               Expanded(
                 child: _buildActionButton(
                   icon: Icons.upload_file,
-                  label: 'Xuất (.mana)',
+                  label: l10n.exportDatabase,
                   onPressed: () => _exportDatabase(context, ref),
                 ),
               ),
@@ -41,7 +47,7 @@ class SettingsScreen extends ConsumerWidget {
               Expanded(
                 child: _buildActionButton(
                   icon: Icons.download,
-                  label: 'Nhập (.mana)',
+                  label: l10n.importDatabase,
                   isOutlined: true,
                   onPressed: () => _importDatabase(context, ref),
                 ),
@@ -51,11 +57,11 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(height: 40),
 
           // === Xuất/Nhập kho hàng ===
-          _buildSectionHeader(context, 'Đồng bộ kho hàng'),
+          _buildSectionHeader(context, l10n.syncProducts),
           const SizedBox(height: 4),
           Text(
-            'Xuất danh sách sản phẩm ra Excel để chỉnh sửa hoặc nhập vào máy khác.',
-            style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            l10n.productSyncDesc,
+            style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
           ),
           const SizedBox(height: 12),
           Row(
@@ -63,7 +69,7 @@ class SettingsScreen extends ConsumerWidget {
               Expanded(
                 child: _buildActionButton(
                   icon: Icons.file_upload_outlined,
-                  label: 'Xuất SP (.xlsx)',
+                  label: l10n.exportProducts,
                   onPressed: () => _exportProducts(context, ref),
                 ),
               ),
@@ -71,12 +77,45 @@ class SettingsScreen extends ConsumerWidget {
               Expanded(
                 child: _buildActionButton(
                   icon: Icons.file_download_outlined,
-                  label: 'Nhập SP (.xlsx)',
+                  label: l10n.importProducts,
                   isOutlined: true,
                   onPressed: () => _importProducts(context, ref),
                 ),
               ),
             ],
+          ),
+          const Divider(height: 40),
+
+          // === Ngôn ngữ ===
+          _buildSectionHeader(context, l10n.language),
+          const SizedBox(height: 12),
+          Container(
+            decoration: BoxDecoration(
+              color: cs.surface,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.4)),
+            ),
+            child: Column(
+              children: [
+                _LangOption(
+                  icon: '🇻🇳',
+                  title: 'Tiếng Việt',
+                  subtitle: 'Ngôn ngữ mặc định',
+                  isSelected: locale == const Locale('vi'),
+                  onTap: () => ref.read(localeProvider.notifier).state = const Locale('vi'),
+                  isTop: true,
+                ),
+                Divider(height: 0, indent: 72, endIndent: 16, color: cs.outlineVariant.withValues(alpha: 0.3)),
+                _LangOption(
+                  icon: '🇺🇸',
+                  title: 'English',
+                  subtitle: '',
+                  isSelected: locale == const Locale('en'),
+                  onTap: () => ref.read(localeProvider.notifier).state = const Locale('en'),
+                  isTop: false,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -290,5 +329,79 @@ class SettingsScreen extends ConsumerWidget {
     ref.invalidate(todayInvoiceCountProvider);
     ref.invalidate(totalProductCountProvider);
     ref.invalidate(revenueByYearProvider);
+  }
+}
+
+class _LangOption extends StatelessWidget {
+  final String icon;
+  final String title;
+  final String subtitle;
+  final bool isSelected;
+  final VoidCallback onTap;
+  final bool isTop;
+
+  const _LangOption({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.isSelected,
+    required this.onTap,
+    required this.isTop,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.vertical(
+        top: isTop ? const Radius.circular(14) : Radius.zero,
+        bottom: !isTop ? const Radius.circular(14) : Radius.zero,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Row(
+          children: [
+            Text(icon, style: const TextStyle(fontSize: 28)),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: cs.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: TextStyle(fontSize: 13, color: cs.onSurfaceVariant),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 22,
+              height: 22,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected ? cs.primary : Colors.transparent,
+                border: Border.all(
+                  color: isSelected ? cs.primary : cs.outline,
+                  width: 2,
+                ),
+              ),
+              child: isSelected
+                  ? Icon(Icons.check, size: 14, color: cs.onPrimary)
+                  : null,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

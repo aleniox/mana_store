@@ -1,0 +1,138 @@
+{
+  "@@locale": "en",
+  "appName": "Mana Store",
+  "@appName": {
+    "description": "The application name"
+  },
+  "dashboard": "Dashboard",
+  "@dashboard": {
+    "description": "Dashboard tab label"
+  },
+  "sell": "Sell",
+  "@sell": {
+    "description": "Sell tab label"
+  },
+  "history": "History",
+  "@history": {
+    "description": "History tab label"
+  },
+  "todayOverview": "Today's Overview",
+  "todayRevenue": "Today's Revenue",
+  "totalRevenue": "Total Revenue",
+  "invoice": "Invoice",
+  "invoices": "Invoices",
+  "product": "Product",
+  "products": "Products",
+  "inStock": "In stock",
+  "outOfStock": "Out of stock",
+  "quickAccess": "Quick Access",
+  "searchOrScan": "Search or scan barcode\nto add products",
+  "emptyCart": "Empty cart",
+  "noProducts": "No products yet",
+  "noInvoices": "No invoices yet",
+  "addFirstProduct": "Tap + to add your first product",
+  "invoicesWillAppearHere": "Invoices will appear here",
+  "scanBarcode": "Scan barcode",
+  "pointCamera": "Point camera at barcode",
+  "added": "Added",
+  "notFound": "Not found",
+  "productNotFound": "Product not found with barcode",
+  "addNew": "Add new",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "deleteProduct": "Delete product",
+  "deleteConfirm": "Delete \"{name}\"?\nThis action cannot be undone.",
+  "@deleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleted": "Deleted",
+  "cannotDeleteProductInInvoice": "Cannot delete: product exists in invoices",
+  "total": "Total",
+  "payment": "Payment",
+  "print": "Print",
+  "exportPdf": "Export PDF",
+  "exportExcel": "Export Excel",
+  "settings": "Settings",
+  "backupRestore": "Backup & Restore",
+  "exportDatabase": "Export (.mana)",
+  "importDatabase": "Import (.mana)",
+  "syncProducts": "Sync Products",
+  "exportProducts": "Export SP (.xlsx)",
+  "importProducts": "Import SP (.xlsx)",
+  "exportProductList": "Export product list to Excel",
+  "importProductList": "Import products from Excel file",
+  "databaseBackupDesc": "Backup all data for safekeeping or moving to another device.",
+  "productSyncDesc": "Export products to Excel for editing or bulk adding.",
+  "importWarning": "Importing will REPLACE all current data with data from the file. Are you sure?",
+  "accept": "Accept",
+  "reject": "Reject",
+  "importSuccess": "Import successful!",
+  "importProductSuccess": "Imported: {imported} new, {updated} updated",
+  "@importProductSuccess": {
+    "placeholders": {
+      "imported": { "type": "int" },
+      "updated": { "type": "int" }
+    }
+  },
+  "stats": "Statistics",
+  "revenueStats": "Revenue Statistics",
+  "selectYear": "Select year:",
+  "revenueByMonth": "Revenue by month",
+  "revenueByYear": "Revenue by year",
+  "noDataYear": "No data for year {year}",
+  "@noDataYear": {
+    "placeholders": {
+      "year": { "type": "int" }
+    }
+  },
+  "noData": "No data",
+  "month": "Month",
+  "year": "Year",
+  "productList": "Product List",
+  "addProduct": "Add product",
+  "editProduct": "Edit product",
+  "barcode": "Barcode",
+  "productName": "Product name",
+  "price": "Price",
+  "stock": "Stock",
+  "language": "Language",
+  "vietnamese": "Tiếng Việt",
+  "english": "English",
+  "error": "Error",
+  "loading": "Loading",
+  "loadError": "Error loading data",
+  "hideRevenue": "Hide revenue",
+  "showRevenue": "Show revenue",
+  "productCount": "{count} products",
+  "@productCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "invoiceCount": "{count} invoices",
+  "@invoiceCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "revenue": "Revenue",
+  "invoiceDetail": "Invoice Detail",
+  "invoiceNumber": "Invoice #{id}",
+  "@invoiceNumber": {
+    "placeholders": {
+      "id": { "type": "int" }
+    }
+  },
+  "date": "Date",
+  "time": "Time",
+  "quantity": "Qty",
+  "unitPrice": "Unit price",
+  "amount": "Amount",
+  "subtotal": "Subtotal",
+  "searchProducts": "Search products",
+  "scanToAdd": "Scan to add"
+}

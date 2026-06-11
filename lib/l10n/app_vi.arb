@@ -1,0 +1,129 @@
+{
+  "@@locale": "vi",
+  "appName": "Mana Store",
+  "dashboard": "Trang chủ",
+  "sell": "Bán hàng",
+  "history": "Lịch sử",
+  "todayOverview": "Tổng quan hôm nay",
+  "todayRevenue": "Doanh thu hôm nay",
+  "totalRevenue": "Tổng doanh thu",
+  "invoice": "Hóa đơn",
+  "invoices": "Hóa đơn",
+  "product": "Sản phẩm",
+  "products": "Sản phẩm",
+  "inStock": "Còn {stock}",
+  "@inStock": {
+    "placeholders": {
+      "stock": { "type": "int" }
+    }
+  },
+  "outOfStock": "Hết hàng",
+  "quickAccess": "Truy cập nhanh",
+  "searchOrScan": "Tìm kiếm hoặc quét mã vạch\nđể thêm sản phẩm",
+  "emptyCart": "Giỏ hàng trống",
+  "noProducts": "Chưa có sản phẩm nào",
+  "noInvoices": "Chưa có hóa đơn nào",
+  "addFirstProduct": "Bấm + để thêm sản phẩm đầu tiên",
+  "invoicesWillAppearHere": "Hóa đơn sẽ xuất hiện tại đây",
+  "scanBarcode": "Quét mã vạch",
+  "pointCamera": "Hướng camera vào mã vạch",
+  "added": "Đã thêm",
+  "notFound": "Không tìm thấy",
+  "productNotFound": "Không tìm thấy sản phẩm với mã",
+  "addNew": "Thêm mới",
+  "cancel": "Hủy",
+  "delete": "Xóa",
+  "deleteProduct": "Xóa sản phẩm",
+  "deleteConfirm": "Xóa \"{name}\"?\nHành động này không thể hoàn tác.",
+  "@deleteConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "deleted": "Đã xóa",
+  "cannotDeleteProductInInvoice": "Không thể xóa: sản phẩm đã có trong hóa đơn",
+  "total": "Tổng cộng",
+  "payment": "Thanh toán",
+  "print": "In",
+  "exportPdf": "Xuất PDF",
+  "exportExcel": "Xuất Excel",
+  "settings": "Cài đặt",
+  "backupRestore": "Sao lưu & Phục hồi",
+  "exportDatabase": "Xuất (.mana)",
+  "importDatabase": "Nhập (.mana)",
+  "syncProducts": "Đồng bộ kho hàng",
+  "exportProducts": "Xuất SP (.xlsx)",
+  "importProducts": "Nhập SP (.xlsx)",
+  "exportProductList": "Xuất danh sách sản phẩm ra Excel",
+  "importProductList": "Nhập sản phẩm từ file Excel",
+  "databaseBackupDesc": "Sao lưu toàn bộ dữ liệu để dự phòng hoặc chuyển sang máy khác.",
+  "productSyncDesc": "Xuất danh sách sản phẩm ra Excel để chỉnh sửa hoặc thêm hàng loạt.",
+  "importWarning": "Việc nhập dữ liệu sẽ XOÁ toàn bộ dữ liệu hiện tại và thay bằng dữ liệu trong file. Bạn có chắc chắn không?",
+  "accept": "Chấp nhận",
+  "reject": "Từ chối",
+  "importSuccess": "Nhập dữ liệu thành công!",
+  "importProductSuccess": "Nhập thành công: {imported} mới, {updated} cập nhật",
+  "@importProductSuccess": {
+    "placeholders": {
+      "imported": { "type": "int" },
+      "updated": { "type": "int" }
+    }
+  },
+  "stats": "Thống kê",
+  "revenueStats": "Thống kê doanh thu",
+  "selectYear": "Chọn năm:",
+  "revenueByMonth": "Doanh thu theo tháng",
+  "revenueByYear": "Doanh thu theo năm",
+  "noDataYear": "Chưa có dữ liệu năm {year}",
+  "@noDataYear": {
+    "placeholders": {
+      "year": { "type": "int" }
+    }
+  },
+  "noData": "Chưa có dữ liệu",
+  "month": "Tháng",
+  "year": "Năm",
+  "productList": "Kho hàng",
+  "addProduct": "Thêm sản phẩm",
+  "editProduct": "Sửa sản phẩm",
+  "barcode": "Mã vạch",
+  "productName": "Tên sản phẩm",
+  "price": "Giá",
+  "stock": "Tồn kho",
+  "language": "Ngôn ngữ",
+  "vietnamese": "Tiếng Việt",
+  "english": "English",
+  "error": "Lỗi",
+  "loading": "Đang tải",
+  "loadError": "Lỗi tải dữ liệu",
+  "hideRevenue": "Ẩn doanh thu",
+  "showRevenue": "Hiện doanh thu",
+  "productCount": "{count} sản phẩm",
+  "@productCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "invoiceCount": "{count} hóa đơn",
+  "@invoiceCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "revenue": "Doanh thu",
+  "invoiceDetail": "Chi tiết hóa đơn",
+  "invoiceNumber": "Hóa đơn #{id}",
+  "@invoiceNumber": {
+    "placeholders": {
+      "id": { "type": "int" }
+    }
+  },
+  "date": "Ngày",
+  "time": "Giờ",
+  "quantity": "SL",
+  "unitPrice": "Đơn giá",
+  "amount": "Thành tiền",
+  "subtotal": "Tạm tính",
+  "searchProducts": "Tìm kiếm sản phẩm",
+  "scanToAdd": "Quét để thêm"
+}

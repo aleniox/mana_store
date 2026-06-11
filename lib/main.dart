@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'l10n/app_localizations.dart';
+import 'providers/locale_provider.dart';
 import 'screens/app_shell.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('en');
   await initializeDateFormatting('vi');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -13,15 +17,25 @@ void main() async {
   runApp(const ProviderScope(child: ManaStoreApp()));
 }
 
-class ManaStoreApp extends StatelessWidget {
+class ManaStoreApp extends ConsumerWidget {
   const ManaStoreApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
+
     return MaterialApp(
       title: 'Mana Store',
       debugShowCheckedModeBanner: false,
       theme: _buildTheme(),
+      locale: locale,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       home: const AppShell(),
     );
   }
