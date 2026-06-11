@@ -23,9 +23,16 @@ class DatabaseHelper {
     final path = p.join(dbPath, 'mana_store.db');
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE products ADD COLUMN updated_at INTEGER');
+    }
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -37,7 +44,8 @@ class DatabaseHelper {
         price REAL NOT NULL,
         stock INTEGER NOT NULL DEFAULT 0,
         image_path TEXT,
-        created_at INTEGER NOT NULL
+        created_at INTEGER NOT NULL,
+        updated_at INTEGER
       )
     ''');
 
@@ -85,7 +93,7 @@ class DatabaseHelper {
     if (existing != null) {
       await db.update(
         'products',
-        product.copyWith(id: existing.id).toMap(),
+        product.copyWith(id: existing.id, updatedAt: DateTime.now()).toMap(),
         where: 'id = ?',
         whereArgs: [existing.id],
       );
@@ -144,10 +152,13 @@ class DatabaseHelper {
       final invoiceId = await txn.insert('invoices', invoice.toMap());
       for (final item in items) {
         await txn.insert('invoice_items', item.copyWith(invoiceId: invoiceId).toMap());
-        await txn.rawUpdate(
-          'UPDATE products SET stock = stock - ? WHERE id = ?',
-          [item.quantity, item.productId],
+        final updated = await txn.rawUpdate(
+          'UPDATE products SET stock = stock - ?, updated_at = ? WHERE id = ? AND stock >= ?',
+          [item.quantity, DateTime.now().millisecondsSinceEpoch, item.productId, item.quantity],
         );
+        if (updated == 0) {
+          throw Exception('Sản phẩm "${item.productName}" không đủ tồn kho');
+        }
       }
       return invoiceId;
     });

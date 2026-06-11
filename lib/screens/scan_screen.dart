@@ -58,14 +58,7 @@ class ScanScreenState extends ConsumerState<ScanScreen> {
 
     if (product != null) {
       widget.onScanned(product);
-      _playSuccessSound();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Đã thêm: ${product.name}'),
-          duration: const Duration(milliseconds: 800),
-          backgroundColor: Colors.green,
-        ),
-      );
+      _playSuccessSound().catchError((_) {});
       await Future.delayed(const Duration(seconds: 1));
       if (mounted) _processing = false;
     } else {

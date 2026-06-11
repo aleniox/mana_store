@@ -46,6 +46,18 @@ class _CreateInvoiceScreenState extends ConsumerState<CreateInvoiceScreen> {
   }
 
   void _addToCart(Product product) {
+    if (product.stock <= 0) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${product.name} đã hết hàng'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+      return;
+    }
     ref.read(cartProvider.notifier).addItem(ProductWithQuantity(product: product));
     _searchCtrl.clear();
     _searchFocus.unfocus();
@@ -146,11 +158,7 @@ class _CreateInvoiceScreenState extends ConsumerState<CreateInvoiceScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (_) => ScanScreen(
-                      onScanned: (product) {
-                        ref.read(cartProvider.notifier).addItem(
-                          ProductWithQuantity(product: product),
-                        );
-                      },
+                      onScanned: (product) => _addToCart(product),
                     ),
                   ),
                 );
@@ -298,7 +306,10 @@ class _CreateInvoiceScreenState extends ConsumerState<CreateInvoiceScreen> {
             ),
             child: Icon(Icons.delete_outline_rounded, color: cs.onError, size: 24),
           ),
-          onDismissed: (_) => ref.read(cartProvider.notifier).removeItem(item.product.id!),
+          onDismissed: (_) {
+            final pid = item.product.id;
+            if (pid != null) ref.read(cartProvider.notifier).removeItem(pid);
+          },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             margin: const EdgeInsets.only(bottom: 8),
@@ -374,10 +385,12 @@ class _CreateInvoiceScreenState extends ConsumerState<CreateInvoiceScreen> {
                                 icon: item.quantity > 1 ? Icons.remove_rounded : Icons.delete_outline_rounded,
                                 color: item.quantity > 1 ? null : cs.error,
                                 onTap: () {
+                                  final pid = item.product.id;
+                                  if (pid == null) return;
                                   if (item.quantity > 1) {
-                                    ref.read(cartProvider.notifier).updateQuantity(item.product.id!, item.quantity - 1);
+                                    ref.read(cartProvider.notifier).updateQuantity(pid, item.quantity - 1);
                                   } else {
-                                    ref.read(cartProvider.notifier).removeItem(item.product.id!);
+                                    ref.read(cartProvider.notifier).removeItem(pid);
                                   }
                                 },
                               ),
@@ -392,7 +405,8 @@ class _CreateInvoiceScreenState extends ConsumerState<CreateInvoiceScreen> {
                             _QtyBtn(
                               icon: Icons.add_rounded,
                               onTap: () {
-                                ref.read(cartProvider.notifier).updateQuantity(item.product.id!, item.quantity + 1);
+                                final pid = item.product.id;
+                                if (pid != null) ref.read(cartProvider.notifier).updateQuantity(pid, item.quantity + 1);
                               },
                             ),
                           ],
@@ -546,13 +560,17 @@ class _CreateInvoiceScreenState extends ConsumerState<CreateInvoiceScreen> {
     if (confirm != true) return;
 
     final db = ref.read(databaseHelperProvider);
-    final items = cart.map((e) => InvoiceItem(
-      invoiceId: 0,
-      productId: e.product.id!,
-      productName: e.product.name,
-      quantity: e.quantity,
-      unitPrice: e.product.price,
-    )).toList();
+    final items = cart.map((e) {
+      final pid = e.product.id;
+      if (pid == null) return null;
+      return InvoiceItem(
+        invoiceId: 0,
+        productId: pid,
+        productName: e.product.name,
+        quantity: e.quantity,
+        unitPrice: e.product.price,
+      );
+    }).whereType<InvoiceItem>().toList();
 
     try {
       await db.insertInvoice(Invoice(total: total), items);
@@ -561,6 +579,7 @@ class _CreateInvoiceScreenState extends ConsumerState<CreateInvoiceScreen> {
       ref.invalidate(invoiceListProvider);
       ref.invalidate(todayRevenueProvider);
       ref.invalidate(todayInvoiceCountProvider);
+      ref.invalidate(productListProvider);
       HapticFeedback.heavyImpact();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

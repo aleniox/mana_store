@@ -52,6 +52,7 @@ class ProductFormScreenState extends ConsumerState<ProductFormScreen> {
       name: _nameCtrl.text.trim(),
       price: double.parse(_priceCtrl.text.trim()),
       stock: int.parse(_stockCtrl.text.trim()),
+      updatedAt: widget.product != null ? DateTime.now() : null,
     );
 
     try {

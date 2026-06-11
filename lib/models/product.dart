@@ -6,6 +6,7 @@ class Product {
   final int stock;
   final String? imagePath;
   final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Product({
     this.id,
@@ -15,6 +16,7 @@ class Product {
     this.stock = 0,
     this.imagePath,
     this.createdAt,
+    this.updatedAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +28,7 @@ class Product {
       'stock': stock,
       'image_path': imagePath,
       'created_at': createdAt?.millisecondsSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
+      'updated_at': updatedAt?.millisecondsSinceEpoch,
     };
   }
 
@@ -40,6 +43,9 @@ class Product {
       createdAt: map['created_at'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['created_at'] as int)
           : null,
+      updatedAt: map['updated_at'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['updated_at'] as int)
+          : null,
     );
   }
 
@@ -51,6 +57,7 @@ class Product {
     int? stock,
     String? imagePath,
     DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return Product(
       id: id ?? this.id,
@@ -60,6 +67,7 @@ class Product {
       stock: stock ?? this.stock,
       imagePath: imagePath ?? this.imagePath,
       createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

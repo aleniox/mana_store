@@ -56,10 +56,14 @@ class InvoiceHistoryScreen extends ConsumerWidget {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => InvoiceDetailScreen(invoiceId: inv.id!)),
-                  ),
+                  onTap: () {
+                    final iid = inv.id;
+                    if (iid == null) return;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => InvoiceDetailScreen(invoiceId: iid)),
+                    );
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                     child: Row(
